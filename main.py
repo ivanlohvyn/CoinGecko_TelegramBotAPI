@@ -1,4 +1,5 @@
 from flask import Flask
+from flask import request, jsonify
 from flask_sslify import SSLify
 import requests
 import json
@@ -28,11 +29,17 @@ def send_message(chat_id, text="some text"):
     return r.json
 
 
+@app.route('/', methods=['POST', 'GET'])
+def index():
+    if request.method == 'POST':
+        r = request.get_json()
+        write_json(r)
+        return jsonify(r)
+    return "<h1>some text</h1>"
+
 def main():
-    get_updates()
-    chat = r["message"]["chat"][id]
-    send_message(chat_id)
+    pass
 
 
 if __name__ == "__main__":
-    main()
+    app.run(debug=True)
