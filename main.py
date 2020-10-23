@@ -21,8 +21,17 @@ def get_updates():
     write_json(r.json())
 
 
+def send_message(chat_id, text="some text"):
+    url = URL + "sendMessage"
+    answer = {"chat_id": chat_id, "text": text}
+    r = requests.post(url, json=bot_data)
+    return r.json
+
+
 def main():
     get_updates()
+    chat = r["message"]["chat"][id]
+    send_message(chat_id)
 
 
 if __name__ == "__main__":
