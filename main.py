@@ -29,13 +29,18 @@ def send_message(chat_id, text="some text"):
     return r.json
 
 
-@app.route('/', methods=['POST', 'GET'])
+@app.route("/", methods=["POST", "GET"])
 def index():
-    if request.method == 'POST':
+    if request.method == "POST":
         r = request.get_json()
-        write_json(r)
+        chat_id = r["message"]["chat"]["id"]
+        message = r["message"]["text"]
+
+        if "ethereum" in message:
+            send_message(chat_id, text="some text")
         return jsonify(r)
     return "<h1>some text</h1>"
+
 
 def main():
     pass
