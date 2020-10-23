@@ -15,10 +15,15 @@ def write_json(data, filename="bot_data.json"):
         json.dump(data, file, indent=2, ensure_ascii=False)
 
 
-def main():
-    r = requests.get(URL + "getMe")
+def get_updates():
+    url = URL + "getUpdates"
+    r = requests.get(url)
     write_json(r.json())
 
 
+def main():
+    get_updates()
+
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    main()
