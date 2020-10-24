@@ -24,8 +24,8 @@ def get_updates():
 
 def send_message(chat_id, text="some text"):
     url = URL + "sendMessage"
-    answer = {"chat_id": chat_id, "text": text}
-    r = requests.post(url, json=bot_data)
+    response = {"chat_id": chat_id, "text": text}
+    r = requests.post(url, json=response)
     return r.json
 
 
@@ -53,15 +53,14 @@ def index():
         chat_id = r["message"]["chat"]["id"]
         message = r["message"]["text"]
 
-        if "ethereum" in message:
-            send_message(chat_id, text="some text")
+        pattern = r"=\w+"
+
+        if re.search(pattern, message):
+            price = get_price(parse_text(message))
+            send_message(chat_id, text=price)
         return jsonify(r)
     return "<h1>some text</h1>"
 
 
-def main():
-    parse_text("what current /=bitcoin price")
-
-
 if __name__ == "__main__":
-    main()
+    app.run(debug=True)"
