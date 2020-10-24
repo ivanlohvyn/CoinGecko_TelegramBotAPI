@@ -1,9 +1,9 @@
-from flask import Flask
-from flask import request, jsonify
-from flask_sslify import SSLify
-import requests
 import json
+import re
 
+import requests
+from flask import Flask, jsonify, request
+from flask_sslify import SSLify
 
 app = Flask(__name__)
 sslify = SSLify(app)
@@ -29,10 +29,21 @@ def send_message(chat_id, text="some text"):
     return r.json
 
 
-def get_price():
-    url = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin"
-    r = requests.get(url)
-    write_json(r.json(), filename="price.json")
+def parse_text(text):
+    pattern = r"=\w+"
+    crypto = re.search(pattern, text).group()
+    return crypto[1:]
+
+
+def get_price(crypto):
+    url = (
+        "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids={}".format(
+            crypto
+        )
+    )
+    r = requests.get(url).json()
+    price = r[-1]["current_price"]
+    return price
 
 
 @app.route("/", methods=["POST", "GET"])
@@ -49,7 +60,7 @@ def index():
 
 
 def main():
-    get_price
+    parse_text("what current /=bitcoin price")
 
 
 if __name__ == "__main__":
