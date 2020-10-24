@@ -31,8 +31,8 @@ def send_message(chat_id, text="some text"):
 
 def get_price():
     url = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin"
-    r = requests.get(ur)
-    write_json(r, filename="price.json")
+    r = requests.get(url)
+    write_json(r.json(), filename="price.json")
 
 
 @app.route("/", methods=["POST", "GET"])
