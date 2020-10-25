@@ -8,7 +8,8 @@ from flask_sslify import SSLify
 app = Flask(__name__)
 sslify = SSLify(app)
 
-URL = "https://api.telegram.org/bot<YOUR_BOT_TOKEN>/"
+
+URL = "https://api.telegram.org/bot<token>/"
 
 
 def write_json(data, filename="bot_data.json"):
